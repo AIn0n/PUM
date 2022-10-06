@@ -13,7 +13,7 @@
                     ctx.save();
                     ctx.beginPath();
                     ctx.arc(canvas.clientWidth / 2, canvas.clientHeight / 2 , 40, 0, 2 * Math.PI);
-                    ctx.fillStyle(boolean ? "green" : "blue");
+                    ctx.fillStyle= boolean ? "green" : "blue";
                     boolean = !boolean;
                     ctx.fill();
                     ctx.stroke();
