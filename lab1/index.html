@@ -8,17 +8,17 @@
                 var canvas = document.getElementById("myCanvas");
                 var ctx = canvas.getContext("2d");
 
-                setInterval(changeColor, 1000);
-
                 var boolean = true;
                 function changeColor() {
+                    ctx.save();
                     ctx.beginPath();
                     ctx.arc(canvas.clientWidth / 2, canvas.clientHeight / 2 , 40, 0, 2 * Math.PI);
-                    ctx.stroke();
                     ctx.fillStyle(boolean ? "green" : "blue");
                     boolean = !boolean;
                     ctx.fill();
+                    ctx.stroke();
                 }
+                setInterval(changeColor, 1000);
             </script>
         </canvas>
     </body>
