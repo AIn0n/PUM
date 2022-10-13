@@ -8,17 +8,21 @@
                 var canvas = document.getElementById("myCanvas");
                 var ctx = canvas.getContext("2d");
 
-                var boolean = true;
+                var blue = 255;
+                var green = 0;
+                var vel = 1;
                 function changeColor() {
                     ctx.save();
                     ctx.beginPath();
                     ctx.arc(canvas.clientWidth / 2, canvas.clientHeight / 2 , 40, 0, 2 * Math.PI);
-                    ctx.fillStyle= boolean ? "green" : "blue";
-                    boolean = !boolean;
+                    ctx.fillStyle= "rgb(0," + green + "," + blue + ")";
+                    blue -= vel;
+                    green += vel;
                     ctx.fill();
                     ctx.stroke();
+                    if (green == 255) vel -= vel;
                 }
-                setInterval(changeColor, 1000);
+                setInterval(changeColor, 10);
             </script>
         </canvas>
     </body>
