@@ -8,19 +8,20 @@
                 var canvas = document.getElementById("myCanvas");
                 var ctx = canvas.getContext("2d");
 
-                var blue = 255;
                 var green = 0;
                 var vel = 1;
                 function changeColor() {
                     ctx.save();
                     ctx.beginPath();
                     ctx.arc(canvas.clientWidth / 2, canvas.clientHeight / 2 , 40, 0, 2 * Math.PI);
-                    ctx.fillStyle= "rgb(0," + green + "," + blue + ")";
-                    blue -= vel;
+                    ctx.fillStyle= `rgb(0,${green},${255 - green})`;
+                    if (green > 255 || green < 0) 
+                        vel = -vel;
+                    console.log("green = " + green + " velocity " + vel);
                     green += vel;
                     ctx.fill();
                     ctx.stroke();
-                    if (green == 255) vel -= vel;
+                    
                 }
                 setInterval(changeColor, 10);
             </script>
