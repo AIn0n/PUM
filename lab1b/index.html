@@ -20,10 +20,11 @@
                     colorBool = !colorBool;
                 }
 
+                const radius = 40;
                 function drawCircle(ctx, posX, posY, colorFunction) {
                     ctx.save();
                     ctx.beginPath();
-                    ctx.arc(posX, posY, 40, 0, 2 * Math.PI);
+                    ctx.arc(posX, posY, radius, 0, 2 * Math.PI);
                     colorFunction(ctx);
                     ctx.fill();
                     ctx.stroke();
@@ -39,8 +40,11 @@
                 var canvas = document.getElementById("myCanvas");
                 var ctx = canvas.getContext("2d");
                 function intervalFunctionsFast() {
+                    ctx.clearRect(canvas.clientWidth / 2 - 2 * radius, 0, canvas.clientWidth / 2 - radius, canvas.clientHeight);
+                    drawCircle(ctx, canvas.clientWidth / 2 + canvas.clientWidth / 4, getYmov() * canvas.clientHeight / 2, colorGradient);
                     drawCircle(ctx, canvas.clientWidth / 2, canvas.clientHeight / 2, colorGradient);
                 }
+
                 function intervalFunctionsSlow() {
                     drawCircle(ctx, canvas.clientWidth / 4, canvas.clientHeight / 2, colorChange);
                 }
