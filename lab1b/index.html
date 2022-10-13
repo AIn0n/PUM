@@ -5,25 +5,47 @@
         <a href="https://github.com/AIn0n/PUM/blob/master/lab1/">kod</a>
         <canvas id="myCanvas" width="800" height="600">
             <script>
-                var canvas = document.getElementById("myCanvas");
-                var ctx = canvas.getContext("2d");
-
                 var green = 0;
                 var vel = 1;
-                function changeColor() {
-                    ctx.save();
-                    ctx.beginPath();
-                    ctx.arc(canvas.clientWidth / 2, canvas.clientHeight / 2 , 40, 0, 2 * Math.PI);
-                    ctx.fillStyle= `rgb(0,${green},${255 - green})`;
+                function colorGradient(context) {
+                    context.fillStyle= `rgb(0,${green},${255 - green})`;
                     if (green > 255 || green < 0) 
                         vel = -vel;
-                    console.log("green = " + green + " velocity " + vel);
                     green += vel;
+                }
+
+                var colorBool = true;
+                function colorChange(context) {
+                    context.fillStyle = colorBool ? "blue" : "green";
+                    colorBool = !colorBool;
+                }
+
+                function drawCircle(ctx, posX, posY, colorFunction) {
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.arc(posX, posY, 40, 0, 2 * Math.PI);
+                    colorFunction(ctx);
                     ctx.fill();
                     ctx.stroke();
-                    
                 }
-                setInterval(changeColor, 10);
+
+                var frame = 0;
+                function getYmov() {
+                    var y = Math.pow(Math.sin(frame), 2);
+                    frame += 1;
+                    return y;
+                }
+
+                var canvas = document.getElementById("myCanvas");
+                var ctx = canvas.getContext("2d");
+                function intervalFunctionsFast() {
+                    drawCircle(ctx, canvas.clientWidth / 2, canvas.clientHeight / 2, colorGradient);
+                }
+                function intervalFunctionsSlow() {
+                    drawCircle(ctx, canvas.clientWidth / 4, canvas.clientHeight / 2, colorChange);
+                }
+                setInterval(intervalFunctionsFast, 10);
+                setInterval(intervalFunctionsSlow, 1000);
             </script>
         </canvas>
     </body>
