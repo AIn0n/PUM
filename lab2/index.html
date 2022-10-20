@@ -6,10 +6,8 @@
                 var canvas = document.getElementById("myCanvas");
                 var ctx = canvas.getContext("2d");
 
-                const stepOffset = 100;
-                const NUMBER_OF_STEPS = 5;
-                var stepNumber = 1;
-                function drawStep() {
+                const stepOffset = 100, NUMBER_OF_STEPS = 5;
+                function drawStep(stepNumber) {
                     ctx.save();
                     ctx.beginPath();
                     ctx.fillStyle = "red";
@@ -23,11 +21,40 @@
                     ctx.stroke();
                     if (stepNumber < NUMBER_OF_STEPS)
                         setTimeout(() => {
-                            stepNumber += 1;
-                            requestAnimationFrame(drawStep);
+                            requestAnimationFrame(() => {drawStep(stepNumber + 1)});
                         }, 1000);
                 }
-                requestAnimationFrame(drawStep);
+
+                function DrawStairs(stepNumber) {
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.fillStyle = "red";
+                    ctx.fill();
+                    const calcOff = stepOffset * stepNumber;
+                    ctx.fillRect(
+                        calcOff,
+                        canvas.clientHeight - calcOff,
+                        canvas.clientHeight - calcOff,
+                        stepOffset);
+                    
+                    if (stepNumber < NUMBER_OF_STEPS) {
+                        DrawStairs(stepNumber + 1);
+                    } else {
+                        ctx.stroke();
+                    }
+                }
+
+                const radius = 40;
+                var ballPosX = ctx.clientWidth, ballPosY = 40;
+                function drawBall(posX, posY) {
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.arc(posX, posY, radius, 0, 2 * Math.PI);
+                    ctx.fill();
+                    ctx.stroke();
+                }
+                //requestAnimationFrame(() => {drawStep(1)});
+                DrawStairs(1);
             </script>
         </canvas>
     </body>
