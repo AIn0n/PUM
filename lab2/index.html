@@ -6,17 +6,28 @@
                 var canvas = document.getElementById("myCanvas");
                 var ctx = canvas.getContext("2d");
 
-                var boolean = true;
-                function changeColor() {
+                const stepOffset = 100;
+                const NUMBER_OF_STEPS = 5;
+                var stepNumber = 1;
+                function drawStep() {
                     ctx.save();
                     ctx.beginPath();
-                    ctx.arc(canvas.clientWidth / 2, canvas.clientHeight / 2 , 40, 0, 2 * Math.PI);
-                    ctx.fillStyle= boolean ? "green" : "blue";
-                    boolean = !boolean;
+                    ctx.fillStyle = "red";
                     ctx.fill();
+                    const calcOff = stepOffset * stepNumber;
+                    ctx.fillRect(
+                        calcOff,
+                        canvas.clientHeight - calcOff,
+                        canvas.clientHeight - calcOff,
+                        stepOffset);
                     ctx.stroke();
+                    if (stepNumber < NUMBER_OF_STEPS)
+                        setTimeout(() => {
+                            stepNumber += 1;
+                            requestAnimationFrame(drawStep);
+                        }, 1000);
                 }
-                setInterval(changeColor, 1000);
+                requestAnimationFrame(drawStep);
             </script>
         </canvas>
     </body>
