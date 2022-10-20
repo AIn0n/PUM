@@ -65,9 +65,12 @@
                     drawBall(ballPosX, ballPosY);
                     if (ballPosX + radius < lastStepBorderX) {
                         moveForward = false;
+                        lastStepBorderX -= stepOffset;
+                        lastStepBorderY += stepOffset;
                     }
-                    if (ballPosY + radius < lastStepBorderY) {
+                    if (!moveForward && ballPosY + radius == lastStepBorderY) {
                         moveForward = true;
+                        console.log("dupa");
                     }
                     if (moveForward)
                         ballPosX -= 1;
