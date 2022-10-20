@@ -6,7 +6,10 @@
                 var canvas = document.getElementById("myCanvas");
                 var ctx = canvas.getContext("2d");
 
-                const stepOffset = 100, NUMBER_OF_STEPS = 5;
+                const radius = 40;
+                const NUMBER_OF_STEPS = 5
+                const stepOffset = (canvas.clientHeight - radius * 2) / NUMBER_OF_STEPS;
+                var lastStepBorderX;
                 function drawStep(stepNumber) {
                     ctx.save();
                     ctx.beginPath();
@@ -16,7 +19,7 @@
                     ctx.fillRect(
                         calcOff,
                         canvas.clientHeight - calcOff,
-                        canvas.clientHeight - calcOff,
+                        canvas.clientWidth - calcOff,
                         stepOffset);
                     ctx.stroke();
                     if (stepNumber < NUMBER_OF_STEPS) {
@@ -24,6 +27,8 @@
                             requestAnimationFrame(()=>{drawStep(stepNumber + 1)});
                         }, 1000);
                     } else {
+                        lastStepBorderX = calcOff;
+                        lastStepBorderY = canvas.clientHeight - calcOff;
                         requestAnimationFrame(moveBall);
                     }
                         
@@ -38,13 +43,12 @@
                         ctx.fillRect(
                         calcOff,
                         canvas.clientHeight - calcOff,
-                        canvas.clientHeight - calcOff,
+                        canvas.clientWidth - calcOff,
                         stepOffset);
                     }
                     ctx.stroke();
                 }
 
-                const radius = 40;
                 function drawBall(posX, posY) {
                     ctx.save();
                     ctx.beginPath();
@@ -54,11 +58,21 @@
                 }
 
                 var ballPosX = canvas.clientWidth - radius, ballPosY = radius;
+                var moveForward = true;
                 function moveBall() {
                     ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
                     DrawStairs();
                     drawBall(ballPosX, ballPosY);
-                    ballPosX -= 1;
+                    if (ballPosX + radius < lastStepBorderX) {
+                        moveForward = false;
+                    }
+                    if (ballPosY + radius < lastStepBorderY) {
+                        moveForward = true;
+                    }
+                    if (moveForward)
+                        ballPosX -= 1;
+                    else
+                        ballPosY += 1;
                     requestAnimationFrame(moveBall);
                 }
 
