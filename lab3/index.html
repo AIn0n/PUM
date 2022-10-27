@@ -26,6 +26,7 @@
                     ctx.fill();
                     ctx.stroke();
                     requestAnimationFrame(()=>{
+                        ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
                         drawBall(posX, posY + 1, radius);
                     })
                 }
@@ -47,7 +48,6 @@
                     event.preventDefault();
                 }, true);
                 requestAnimationFrame(() => {
-                    ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
                     drawBall(0, 0, 20);
                     drawPlayer(playerSize, ctx);
                 });
