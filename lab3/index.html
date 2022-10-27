@@ -10,6 +10,7 @@
                 const velocity = 30;
                 const playerSize = 20;
                 var ballX, ballY, bulletX, bulletY, bulletInMove = false;
+                const bulletRadius = 10, ballRadius = 20;
                 function drawPlayer(size, ctx)
                 {
                     ctx.beginPath();
@@ -44,10 +45,10 @@
                     }
                 }
 
-                function spawnBullet() {
+                function spawnBullet(radius) {
                     bulletX = playerPosition;
                     bulletY = canvas.clientHeight;
-                    bulletInMove = false;
+                    bulletInMove = true;
                     requestAnimationFrame(()=>{
                         drawBullet(radius);
                     })
@@ -83,7 +84,7 @@
                             break;
                         case " ":
                             if (!bulletInMove)
-                                    spawnBullet(radius);
+                                    spawnBullet(10);
                     }
 
                     event.preventDefault();
@@ -100,72 +101,6 @@
                     drawPlayer(playerSize, ctx);
                     drawBall(20);
                 });
-
-                const radius = 40;
-                const NUMBER_OF_STEPS = 5
-                const stepOffset = (canvas.clientHeight - radius * 2) / NUMBER_OF_STEPS;
-                var lastStepBorderX;
-                function drawStep(stepNumber) {
-                    ctx.save();
-                    ctx.beginPath();
-                    ctx.fillStyle = "red";
-                    ctx.fill();
-                    const calcOff = stepOffset * stepNumber;
-                    ctx.fillRect(
-                        calcOff,
-                        canvas.clientHeight - calcOff,
-                        canvas.clientWidth - calcOff,
-                        stepOffset);
-                    ctx.stroke();
-                    if (stepNumber < NUMBER_OF_STEPS) {
-                        setTimeout(() => {
-                            requestAnimationFrame(()=>{drawStep(stepNumber + 1)});
-                        }, 1000);
-                    } else {
-                        lastStepBorderX = calcOff;
-                        lastStepBorderY = canvas.clientHeight - calcOff;
-                        requestAnimationFrame(moveBall);
-                    }
-                        
-                }
-
-                function DrawStairs() {
-                    ctx.save();
-                    ctx.beginPath();
-                    ctx.fillStyle = "red";
-                    for (var i = 0; i < NUMBER_OF_STEPS + 1; ++i) {
-                        const calcOff = stepOffset * i;
-                        ctx.fillRect(
-                        calcOff,
-                        canvas.clientHeight - calcOff,
-                        canvas.clientWidth - calcOff,
-                        stepOffset);
-                    }
-                    ctx.stroke();
-                }
-
-
-
-                var ballPosX = canvas.clientWidth - radius, ballPosY = radius;
-                var moveForward = true;
-                function moveBall() {
-                    ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
-                    DrawStairs();
-                    drawBall(ballPosX, ballPosY);
-                    if (ballPosX + radius < lastStepBorderX) {
-                        moveForward = false;
-                        lastStepBorderX -= stepOffset;
-                        lastStepBorderY += stepOffset;
-                    }
-                    if (!moveForward && ballPosY + radius == lastStepBorderY) {
-                        moveForward = true;
-                    }
-                    if (moveForward)
-                        ballPosX -= 1;
-                    else
-                        ballPosY += 1;
-                    requestAnimationFrame(moveBall);
-                }                
             </script>
         </canvas>
     </body>
