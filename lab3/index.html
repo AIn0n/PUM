@@ -9,7 +9,7 @@
                 var playerPosition = canvas.clientWidth / 2;
                 const velocity = 30;
                 const playerSize = 20;
-                var ballX, ballY, bulletX, bulletY, bulletInMove = true;
+                var ballX, ballY, bulletX, bulletY, bulletInMove = false;
                 function drawPlayer(size, ctx)
                 {
                     ctx.beginPath();
@@ -27,7 +27,30 @@
                 }
 
                 function drawBullet(radius) {
+                    console.log("hello bullet");
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.arc(bulletX, bulletY, radius, 0, 2 * Math.PI);
+                    ctx.fill();
+                    ctx.stroke();
+                    bulletY -= 1;
+                    if (bulletY < 0)
+                        bulletInMove = false;
 
+                    if (bulletInMove) {
+                        requestAnimationFrame(()=>{
+                            drawBullet(radius);
+                        });                        
+                    }
+                }
+
+                function spawnBullet() {
+                    bulletX = playerPosition;
+                    bulletY = canvas.clientHeight;
+                    bulletInMove = false;
+                    requestAnimationFrame(()=>{
+                        drawBullet(radius);
+                    })
                 }
 
                 function drawBall(radius) {
@@ -58,7 +81,11 @@
                                 playerPosition += velocity;
                             }
                             break;
+                        case " ":
+                            if (!bulletInMove)
+                                    spawnBullet(radius);
                     }
+
                     event.preventDefault();
                 }, true);
 
