@@ -11,13 +11,22 @@
                 const playerSize = 20;
                 function drawPlayer(size, ctx)
                 {
-                    ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
                     ctx.beginPath();
                     ctx.fillRect(playerPosition, canvas.clientHeight - size, size, size);
                     ctx.fillStyle = "red";
                     ctx.stroke();
                     requestAnimationFrame(()=>{
                         drawPlayer(size, ctx);
+                    })
+                }
+                function drawBall(posX, posY, radius) {
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.arc(posX, posY, radius, 0, 2 * Math.PI);
+                    ctx.fill();
+                    ctx.stroke();
+                    requestAnimationFrame(()=>{
+                        drawBall(posX, posY + 1, radius);
                     })
                 }
                 document.addEventListener('keydown', (event)=> {
@@ -38,7 +47,9 @@
                     event.preventDefault();
                 }, true);
                 requestAnimationFrame(() => {
-                    drawPlayer(playerSize, ctx)
+                    ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+                    drawBall(0, 0, 20);
+                    drawPlayer(playerSize, ctx);
                 });
 
                 const radius = 40;
@@ -84,13 +95,7 @@
                     ctx.stroke();
                 }
 
-                function drawBall(posX, posY) {
-                    ctx.save();
-                    ctx.beginPath();
-                    ctx.arc(posX, posY, radius, 0, 2 * Math.PI);
-                    ctx.fill();
-                    ctx.stroke();
-                }
+
 
                 var ballPosX = canvas.clientWidth - radius, ballPosY = radius;
                 var moveForward = true;
