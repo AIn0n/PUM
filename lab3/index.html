@@ -9,7 +9,7 @@
                 var playerPosition = canvas.clientWidth / 2;
                 const velocity = 30;
                 const playerSize = 20;
-                var ballX, ballY, bulletX, bulletY, ballInMove = false, bulletInMove = true;
+                var ballX, ballY, bulletX, bulletY, bulletInMove = true;
                 function drawPlayer(size, ctx)
                 {
                     ctx.beginPath();
@@ -19,9 +19,17 @@
                     requestAnimationFrame(()=>{
                         ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
                         drawPlayer(size, ctx);
-                        drawBall(20);
                     })
                 }
+
+                function detectCollisionOfBallAndBullet() {
+
+                }
+
+                function drawBullet(radius) {
+
+                }
+
                 function drawBall(radius) {
                     ctx.save();
                     ctx.beginPath();
@@ -44,13 +52,12 @@
                             if (playerPosition - playerSize > 0) {
                                 playerPosition -= velocity;
                             }
-                            console.log(playerPosition);
                             break;
                         case "ArrowRight":
                             if (playerPosition + playerSize < canvas.clientWidth) {
                                 playerPosition += velocity;
                             }
-                            console.log(playerPosition);
+                            break;
                     }
                     event.preventDefault();
                 }, true);
@@ -64,6 +71,7 @@
                 requestAnimationFrame(() => {
                     spawnBall();
                     drawPlayer(playerSize, ctx);
+                    drawBall(20);
                 });
 
                 const radius = 40;
