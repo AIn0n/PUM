@@ -8,28 +8,29 @@
 
                 var playerPosition = canvas.clientWidth / 2;
                 const velocity = 30;
-                function drawPlayer(posY, sizeX, sizeY, ctx)
+                const playerSize = 20;
+                function drawPlayer(size, ctx)
                 {
                     ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
                     ctx.beginPath();
-                    ctx.fillRect(playerPosition, posY, sizeX, sizeY);
+                    ctx.fillRect(playerPosition, canvas.clientHeight - size, size, size);
                     ctx.fillStyle = "red";
                     ctx.stroke();
                     requestAnimationFrame(()=>{
-                        drawPlayer(posY, sizeX, sizeY, ctx);
+                        drawPlayer(size, ctx);
                     })
                 }
-                window.addEventListener('keydown', (event)=> {
+                document.addEventListener('keydown', (event)=> {
                     if (event.defaultPrevented) { return; }
                     switch (event.key) {
                         case "ArrowLeft":
-                            if (playerPosition > 0) {
+                            if (playerPosition - playerSize > 0) {
                                 playerPosition -= velocity;
                             }
                             console.log(playerPosition);
                             break;
                         case "ArrowRight":
-                            if (playerPosition < canvas.clientWidth) {
+                            if (playerPosition + playerSize < canvas.clientWidth) {
                                 playerPosition += velocity;
                             }
                             console.log(playerPosition);
@@ -37,7 +38,7 @@
                     event.preventDefault();
                 }, true);
                 requestAnimationFrame(() => {
-                    drawPlayer(canvas.clientHeight - 20, 20, 20, ctx)
+                    drawPlayer(playerSize, ctx)
                 });
 
                 const radius = 40;
