@@ -24,14 +24,23 @@
                 }
 
                 function detectCollisionOfBallAndBullet() {
-
+                    const bulletTop = bulletY - bulletRadius;
+                    const ballLeft = ballX - ballRadius;
+                    if( (ballY + ballRadius <= bulletTop
+                        && bulletTop <= ballY - ballRadius) &&
+                        (bulletX + bulletRadius <= ballLeft &&
+                        bulletX - bulletRadius <= bulletX - bulletRadius)) {
+                            bulletInMove = false;
+                            return true;
+                        }
+                        return false;
                 }
 
-                function drawBullet(radius) {
+                function drawBullet() {
                     console.log("hello bullet");
                     ctx.save();
                     ctx.beginPath();
-                    ctx.arc(bulletX, bulletY, radius, 0, 2 * Math.PI);
+                    ctx.arc(bulletX, bulletY, bulletRadius, 0, 2 * Math.PI);
                     ctx.fill();
                     ctx.stroke();
                     bulletY -= 1;
@@ -40,24 +49,24 @@
 
                     if (bulletInMove) {
                         requestAnimationFrame(()=>{
-                            drawBullet(radius);
+                            drawBullet();
                         });                        
                     }
                 }
 
-                function spawnBullet(radius) {
+                function spawnBullet() {
                     bulletX = playerPosition;
                     bulletY = canvas.clientHeight;
                     bulletInMove = true;
                     requestAnimationFrame(()=>{
-                        drawBullet(radius);
+                        drawBullet();
                     })
                 }
 
-                function drawBall(radius) {
+                function drawBall() {
                     ctx.save();
                     ctx.beginPath();
-                    ctx.arc(ballX, ballY, radius, 0, 2 * Math.PI);
+                    ctx.arc(ballX, ballY, ballRadius, 0, 2 * Math.PI);
                     ctx.fill();
                     ctx.stroke();
                     ballY += 1;
@@ -66,7 +75,7 @@
                         console.log("hello");
                     }
                     requestAnimationFrame(()=>{
-                        drawBall(radius);
+                        drawBall();
                     })
                 }
                 document.addEventListener('keydown', (event)=> {
@@ -84,7 +93,7 @@
                             break;
                         case " ":
                             if (!bulletInMove)
-                                    spawnBullet(10);
+                                    spawnBullet();
                     }
 
                     event.preventDefault();
