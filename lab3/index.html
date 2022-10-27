@@ -9,6 +9,7 @@
                 var playerPosition = canvas.clientWidth / 2;
                 const velocity = 30;
                 const playerSize = 20;
+                var ballX, ballY, bulletX, bulletY, ballInMove = false, bulletInMove = true;
                 function drawPlayer(size, ctx)
                 {
                     ctx.beginPath();
@@ -16,18 +17,24 @@
                     ctx.fillStyle = "red";
                     ctx.stroke();
                     requestAnimationFrame(()=>{
+                        ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
                         drawPlayer(size, ctx);
+                        drawBall(20);
                     })
                 }
-                function drawBall(posX, posY, radius) {
+                function drawBall(radius) {
                     ctx.save();
                     ctx.beginPath();
-                    ctx.arc(posX, posY, radius, 0, 2 * Math.PI);
+                    ctx.arc(ballX, ballY, radius, 0, 2 * Math.PI);
                     ctx.fill();
                     ctx.stroke();
+                    ballY += 1;
+                    if (ballY > canvas.clientHeight) {
+                        spawnBall();
+                        console.log("hello");
+                    }
                     requestAnimationFrame(()=>{
-                        ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
-                        drawBall(posX, posY + 1, radius);
+                        drawBall(radius);
                     })
                 }
                 document.addEventListener('keydown', (event)=> {
@@ -47,8 +54,15 @@
                     }
                     event.preventDefault();
                 }, true);
+
+                function spawnBall() {
+                    ballX = Math.floor(Math.random() * canvas.clientWidth);
+                    ballY = 0;
+                    ballInMove = true;
+                }
+
                 requestAnimationFrame(() => {
-                    drawBall(0, 0, 20);
+                    spawnBall();
                     drawPlayer(playerSize, ctx);
                 });
 
