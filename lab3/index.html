@@ -8,30 +8,36 @@
 
                 var playerPosition = canvas.clientWidth / 2;
                 const velocity = 30;
-                function drawRectangle(posX, posY, sizeX, sizeY, ctx)
+                function drawPlayer(posY, sizeX, sizeY, ctx)
                 {
+                    ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
                     ctx.beginPath();
-                    ctx.fillRect(posX, posY, sizeX, sizeY);
+                    ctx.fillRect(playerPosition, posY, sizeX, sizeY);
                     ctx.fillStyle = "red";
                     ctx.stroke();
+                    requestAnimationFrame(()=>{
+                        drawPlayer(posY, sizeX, sizeY, ctx);
+                    })
                 }
                 window.addEventListener('keydown', (event)=> {
                     if (event.defaultPrevented) { return; }
                     switch (event.key) {
                         case "ArrowLeft":
-                            if (playerPosition > 0)
+                            if (playerPosition > 0) {
                                 playerPosition -= velocity;
+                            }
                             console.log(playerPosition);
                             break;
                         case "ArrowRight":
-                            if (playerPosition < canvas.clientWidth)
+                            if (playerPosition < canvas.clientWidth) {
                                 playerPosition += velocity;
+                            }
                             console.log(playerPosition);
                     }
                     event.preventDefault();
                 }, true);
                 requestAnimationFrame(() => {
-                    drawRectangle(playerPosition, canvas.clientHeight - 20, 20, 20, ctx)
+                    drawPlayer(canvas.clientHeight - 20, 20, 20, ctx)
                 });
 
                 const radius = 40;
