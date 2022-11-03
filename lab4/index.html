@@ -10,7 +10,7 @@
                     playerPositionY = canvas.clientHeight / 2;
                 const velocity = 5, playerSizeX = 20, playerSizeY = 40, road_width = 400;
                 const line_width = 10, road_pos = (canvas.clientWidth - road_width) / 2;
-
+                var centerLinePos = 0;
 
                 function drawRoad(road_pos, road_width, ctx)
                 {
@@ -21,6 +21,18 @@
                         drawRoad(road_pos, road_width, ctx);
                     });
                 }
+
+                function drawCenterLine(line_width, ctx)
+                {
+                    ctx.fillStyle = "white";
+                    ctx.fillRect((canvas.clientWidth - line_width) / 2, centerLinePos, line_width, line_width * 5);
+                    ctx.fillRect((canvas.clientWidth - line_width) / 2, centerLinePos + line_width * 6, line_width, line_width * 5);
+                    centerLinePos++;
+                    requestAnimationFrame(()=>{
+                        drawCenterLine(line_width, ctx);
+                    });
+                }
+
                 function drawPlayer(sizeX, sizeY, ctx)
                 {
                     ctx.fillStyle = "red";
@@ -42,6 +54,7 @@
                             if (playerPositionX + playerSizeX < canvas.clientWidth) {
                                 playerPositionX += velocity;
                             }
+                            break;
                         case "ArrowUp":
                             if (playerPositionY - playerSizeY > 0) {
                                 playerPositionY -= velocity;
@@ -57,7 +70,9 @@
 
                 requestAnimationFrame(() => {
                     drawRoad(road_pos, road_width, ctx);
+                    drawCenterLine(line_width, ctx);
                     drawPlayer(playerSizeX, playerSizeY, ctx);
+                    
                 });
             </script>
         </canvas>
