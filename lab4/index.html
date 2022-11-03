@@ -6,18 +6,27 @@
                 var canvas = document.getElementById("myCanvas");
                 var ctx = canvas.getContext("2d");
 
-                var playerPosition = canvas.clientWidth / 2;
-                const velocity = 30;
-                const playerSize = 20;
-                function drawPlayer(size, ctx)
+                var playerPositionX = canvas.clientWidth / 2,
+                    playerPositionY = canvas.clientHeight / 2;
+                const velocity = 5, playerSizeX = 20, playerSizeY = 40, road_width = 400;
+                const line_width = 10, road_pos = (canvas.clientWidth - road_width) / 2;
+
+
+                function drawRoad(road_pos, road_width, ctx)
                 {
-                    ctx.beginPath();
-                    ctx.fillRect(playerPosition, canvas.clientHeight - size, size, size);
-                    ctx.fillStyle = "red";
-                    ctx.stroke();
+                    ctx.fillStyle = "gray";
+                    ctx.fillRect(road_pos, 0, road_width, canvas.clientWidth);
                     requestAnimationFrame(()=>{
                         ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
-                        drawPlayer(size, ctx);
+                        drawRoad(road_pos, road_width, ctx);
+                    });
+                }
+                function drawPlayer(sizeX, sizeY, ctx)
+                {
+                    ctx.fillStyle = "red";
+                    ctx.fillRect(playerPositionX, playerPositionY, sizeX, sizeY);
+                    requestAnimationFrame(()=>{
+                        drawPlayer(sizeX, sizeY, ctx);
                     })
                 }
 
@@ -25,20 +34,30 @@
                     if (event.defaultPrevented) { return; }
                     switch (event.key) {
                         case "ArrowLeft":
-                            if (playerPosition - playerSize > 0) {
-                                playerPosition -= velocity;
+                            if (playerPositionX - playerSizeX > 0) {
+                                playerPositionX -= velocity;
                             }
                             break;
                         case "ArrowRight":
-                            if (playerPosition + playerSize < canvas.clientWidth) {
-                                playerPosition += velocity;
+                            if (playerPositionX + playerSizeX < canvas.clientWidth) {
+                                playerPositionX += velocity;
+                            }
+                        case "ArrowUp":
+                            if (playerPositionY - playerSizeY > 0) {
+                                playerPositionY -= velocity;
+                            }
+                            break;
+                        case "ArrowDown":
+                            if (playerPositionY + playerSizeY < canvas.clientHeight) {
+                                playerPositionY += velocity;
                             }
                     }
                     event.preventDefault();
                 }, true);
 
                 requestAnimationFrame(() => {
-                    drawPlayer(playerSize, ctx);
+                    drawRoad(road_pos, road_width, ctx);
+                    drawPlayer(playerSizeX, playerSizeY, ctx);
                 });
             </script>
         </canvas>
