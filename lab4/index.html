@@ -34,6 +34,12 @@
                     ctx.fillRect((canvas.clientWidth - line_width) / 2, (centerLinePos + line_height * 10) % canvas.clientHeight, line_width, line_height);
                     ctx.fillRect((canvas.clientWidth - line_width) / 2, (centerLinePos + line_height * 12) % canvas.clientHeight, line_width, line_height);
                     ctx.fillRect((canvas.clientWidth - line_width) / 2, (centerLinePos + line_height * 14) % canvas.clientHeight, line_width, line_height);
+                    for (i = 0; i < 8; ++i) {
+                        ctx.fillStyle = (i % 2 == 0) ? "red" : "white";
+                        ctx.fillRect((canvas.clientWidth - line_width - road_width) / 2, (centerLinePos + line_height * i) % canvas.clientHeight, line_width, line_height);
+                        ctx.fillRect(((canvas.clientWidth - line_width - road_width) / 2) + road_width, 
+                        (centerLinePos + line_height * i) % canvas.clientHeight, line_width, line_height);
+                    }
                     centerLinePos++;
                     requestAnimationFrame(()=>{
                         drawCenterLine(line_width, ctx);
