@@ -41,12 +41,26 @@
                     });
                 }
 
-                function spawnObstacle() {
-                    obstaclesY.append(0);
-                    obstaclesX.append(Math.random() * canvas.clientWidth);
+                function spawnObstacle(a) {
+                    if (a > 5)
+                        return;
+                    obstaclesY.push(0);
+                    obstaclesX.push(Math.random() * canvas.clientWidth);
+                    setInterval(()=>{
+                        spawnObstacle(a + 1);
+                    }, 3_000);
                 }
 
-                
+                function drawObstacles() {
+                    for (var i = 0; i < obstaclesX.length; ++i) {
+                        ctx.fillStyle = "black";
+                        ctx.fillRect(obstaclesX, obstaclesY, 100, 10);
+                        obstaclesY[i] += 1;
+                    }
+                    requestAnimationFrame(()=>{
+                        drawObstacles();
+                    });
+                }
 
                 function drawPlayer(sizeX, sizeY, ctx)
                 {
@@ -83,11 +97,12 @@
                     event.preventDefault();
                 }, true);
 
+                spawnObstacle(0);
                 requestAnimationFrame(() => {
                     drawRoad(road_pos, road_width, ctx);
                     drawCenterLine(line_width, ctx);
+                    drawObstacles();
                     drawPlayer(playerSizeX, playerSizeY, ctx);
-                    
                 });
             </script>
         </canvas>
