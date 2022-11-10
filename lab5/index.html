@@ -12,6 +12,7 @@
                 const line_width = 10, road_pos = (canvas.clientWidth - road_width) / 2;
                 const line_height = 50;
                 var centerLinePos = 0;
+                var obstaclesX = [], obstaclesY = [];
 
                 function drawRoad(road_pos, road_width, ctx)
                 {
@@ -39,6 +40,13 @@
                         drawCenterLine(line_width, ctx);
                     });
                 }
+
+                function spawnObstacle() {
+                    obstaclesY.append(0);
+                    obstaclesX.append(Math.random() * canvas.clientWidth);
+                }
+
+                
 
                 function drawPlayer(sizeX, sizeY, ctx)
                 {
