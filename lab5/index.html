@@ -48,7 +48,6 @@
                 }
 
                 function spawnObstacle(a) {
-                    console.log(a);
                     if (a < 5) {
                         obstaclesY.push(0);
                         obstaclesX.push(random_in_range(road_pos, road_pos + road_width - obstacle_width));
@@ -67,7 +66,6 @@
                         if (obstaclesY[i] > playerPositionY && pointed[i] == false) {
                             pointed[i] = true;
                             points += 1;
-                            console.log(points);
                         }
                         if (obstaclesY[i] > canvas.clientHeight) {
                             obstaclesY[i] = 0;
@@ -78,6 +76,16 @@
                     requestAnimationFrame(()=>{
                         drawObstacles();
                     });
+                }
+
+                function drawPointsCounter()
+                {
+                    ctx.font = "30px Arial";
+                    ctx.fillStyle="black";
+                    ctx.strokeText("points: " + points,0, canvas.clientHeight);
+                    requestAnimationFrame(()=>{
+                        drawPointsCounter();
+                    })
                 }
 
                 function drawPlayer(sizeX, sizeY, ctx)
@@ -120,6 +128,7 @@
                     drawRoad(road_pos, road_width, ctx);
                     drawCenterLine(line_width, ctx);
                     drawObstacles();
+                    drawPointsCounter();
                     drawPlayer(playerSizeX, playerSizeY, ctx);
                 });
             </script>
