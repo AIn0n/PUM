@@ -11,8 +11,13 @@
                 const velocity = 5, playerSizeX = 20, playerSizeY = 40, road_width = 400;
                 const line_width = 10, road_pos = (canvas.clientWidth - road_width) / 2;
                 const line_height = 50;
+                const obstacle_width = 100;
                 var centerLinePos = 0;
                 var obstaclesX = [], obstaclesY = [];
+
+                function random_in_range(min, max) {
+                    return Math.random() * (max - min) + min;
+                }
 
                 function drawRoad(road_pos, road_width, ctx)
                 {
@@ -45,9 +50,9 @@
                     console.log(a);
                     if (a < 5) {
                         obstaclesY.push(0);
-                        obstaclesX.push(Math.random() * canvas.clientWidth);
+                        obstaclesX.push(random_in_range(road_pos, road_pos + road_width - obstacle_width));
                         setTimeout(()=>{
-                        spawnObstacle(a + 1);
+                            spawnObstacle(a + 1);
                         }, 3_000);
                     }
                 }
@@ -55,8 +60,12 @@
                 function drawObstacles() {
                     for (var i = 0; i < obstaclesX.length; ++i) {
                         ctx.fillStyle = "black";
-                        ctx.fillRect(obstaclesX[i], obstaclesY[i], 100, 10);
+                        ctx.fillRect(obstaclesX[i], obstaclesY[i], obstacle_width, 10);
                         obstaclesY[i] += 1;
+                        if (obstaclesY[i] > canvas.clientHeight) {
+                            obstaclesY[i] = 0;
+                            obstaclesX[i] = random_in_range(road_pos, road_pos + road_width - obstacle_width);
+                        }
                     }
                     requestAnimationFrame(()=>{
                         drawObstacles();
