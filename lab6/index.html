@@ -30,13 +30,27 @@
                     });
                 }
 
+                function drawCornerLines(line_width, ctx)
+                {
+                    ctx.fillStyle = "white";
+                    ctx.fillRect((canvas.clientWidth - line_width) / 2, centerLinePos % canvas.clientHeight, line_width, line_width * 5);
+                    for (var i = 0; i < 15; i++) {
+                        ctx.fillStyle = (ctx.fillStyle == "#ffffff") ? "red" : "white";
+                        ctx.fillRect((canvas.clientWidth - road_width) / 2, (centerLinePos + line_height * i) % canvas.clientHeight, line_width, line_height);
+                        ctx.fillRect(((canvas.clientWidth - road_width) / 2) + road_width, (centerLinePos + line_height * i) % canvas.clientHeight, line_width, line_height);
+                    }
+                    centerLinePos++;
+                    requestAnimationFrame(()=>{
+                        drawCornerLines(line_width, ctx);
+                    });
+                }
                 function drawCenterLine(line_width, ctx)
                 {
                     ctx.fillStyle = "white";
                     ctx.fillRect((canvas.clientWidth - line_width) / 2, centerLinePos % canvas.clientHeight, line_width, line_width * 5);
                     for (var i = 0; i < 15; i=i+2) {
-                        ctx.fillRect((canvas.clientWidth - line_width) / 2, (centerLinePos + line_height * i) % canvas.clientHeight, line_width, line_height);    
-                    }  
+                        ctx.fillRect((canvas.clientWidth - line_width) / 2, (centerLinePos + line_height * i) % canvas.clientHeight, line_width, line_height);
+                    }
                     centerLinePos++;
                     requestAnimationFrame(()=>{
                         drawCenterLine(line_width, ctx);
@@ -123,6 +137,7 @@
                 requestAnimationFrame(() => {
                     drawRoad(road_pos, road_width, ctx);
                     drawCenterLine(line_width, ctx);
+                    drawCornerLines(line_width, ctx);
                     drawObstacles();
                     drawPointsCounter();
                     drawPlayer(playerSizeX, playerSizeY, ctx);
