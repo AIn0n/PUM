@@ -8,7 +8,7 @@
 
                 var playerPositionX = canvas.clientWidth / 2,
                     playerPositionY = canvas.clientHeight / 2;
-                const velocity = 5, playerSizeX = 20, playerSizeY = 40, road_width = 400;
+                const velocity = 5, car_width = 20, car_height = 40, road_width = 400;
                 const line_width = 10, road_pos = (canvas.clientWidth - road_width) / 2;
                 const line_height = 50;
                 const obstacle_width = 100;
@@ -68,7 +68,14 @@
                     }
                 }
 
-                function drawObstacles() {
+                function detectCollisions()
+                {
+                    for (var i = 0; i < obstaclesX.length; ++i) {
+                    }
+                }
+
+                function drawObstacles()
+                {
                     for (var i = 0; i < obstaclesX.length; ++i) {
                         ctx.fillStyle = "black";
                         ctx.fillRect(obstaclesX[i], obstaclesY[i], obstacle_width, 10);
@@ -111,22 +118,22 @@
                     if (event.defaultPrevented) { return; }
                     switch (event.key) {
                         case "ArrowLeft":
-                            if (playerPositionX - playerSizeX > 0) {
+                            if (playerPositionX - car_width > 0) {
                                 playerPositionX -= velocity;
                             }
                             break;
                         case "ArrowRight":
-                            if (playerPositionX + playerSizeX < canvas.clientWidth) {
+                            if (playerPositionX + car_width < canvas.clientWidth) {
                                 playerPositionX += velocity;
                             }
                             break;
                         case "ArrowUp":
-                            if (playerPositionY - playerSizeY > 0) {
+                            if (playerPositionY - car_height > 0) {
                                 playerPositionY -= velocity;
                             }
                             break;
                         case "ArrowDown":
-                            if (playerPositionY + playerSizeY < canvas.clientHeight) {
+                            if (playerPositionY + car_height < canvas.clientHeight) {
                                 playerPositionY += velocity;
                             }
                     }
@@ -140,7 +147,7 @@
                     drawCornerLines(line_width, ctx);
                     drawObstacles();
                     drawPointsCounter();
-                    drawPlayer(playerSizeX, playerSizeY, ctx);
+                    drawPlayer(car_width, car_height, ctx);
                 });
             </script>
         </canvas>
