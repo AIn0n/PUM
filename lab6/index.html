@@ -15,6 +15,7 @@
                 var points = 0;
                 var centerLinePos = 0;
                 var obstaclesX = [], obstaclesY = [], pointed = [];
+                var dead = false;
 
                 function random_in_range(min, max) {
                     return Math.random() * (max - min) + min;
@@ -79,8 +80,7 @@
 
                 function die() {
                     print_game_over();
-                    setTimeout(()=>{
-                    }, 3000);
+                    dead = true;
                 }
 
                 function detectCollisions(num)
@@ -91,16 +91,21 @@
                     }
                 }
 
+                function check_points(num) {
+                    if (obstaclesY[num] > playerPositionY && pointed[num] == false) {
+                        pointed[num] = true;
+                        points += 1;
+                    }
+                }
+
                 function drawObstacles()
                 {
                     for (var i = 0; i < obstaclesX.length; ++i) {
                         ctx.fillStyle = "black";
                         ctx.fillRect(obstaclesX[i], obstaclesY[i], obstacle_width, 10);
                         obstaclesY[i] += 1;
-                        if (obstaclesY[i] > playerPositionY && pointed[i] == false) {
-                            pointed[i] = true;
-                            points += 1;
-                        }
+                        if (!dead)
+                            check_points(i);
                         if (obstaclesY[i] > canvas.clientHeight) {
                             obstaclesY[i] = 0;
                             obstaclesX[i] = random_in_range(road_pos, road_pos + road_width - obstacle_width);
