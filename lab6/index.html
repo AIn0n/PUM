@@ -34,13 +34,9 @@
                 {
                     ctx.fillStyle = "white";
                     ctx.fillRect((canvas.clientWidth - line_width) / 2, centerLinePos % canvas.clientHeight, line_width, line_width * 5);
-                    ctx.fillRect((canvas.clientWidth - line_width) / 2, (centerLinePos + line_height * 2) % canvas.clientHeight, line_width, line_height);
-                    ctx.fillRect((canvas.clientWidth - line_width) / 2, (centerLinePos + line_height * 4) % canvas.clientHeight, line_width, line_height);
-                    ctx.fillRect((canvas.clientWidth - line_width) / 2, (centerLinePos + line_height * 6) % canvas.clientHeight, line_width, line_height);
-                    ctx.fillRect((canvas.clientWidth - line_width) / 2, (centerLinePos + line_height * 8) % canvas.clientHeight, line_width, line_height);
-                    ctx.fillRect((canvas.clientWidth - line_width) / 2, (centerLinePos + line_height * 10) % canvas.clientHeight, line_width, line_height);
-                    ctx.fillRect((canvas.clientWidth - line_width) / 2, (centerLinePos + line_height * 12) % canvas.clientHeight, line_width, line_height);
-                    ctx.fillRect((canvas.clientWidth - line_width) / 2, (centerLinePos + line_height * 14) % canvas.clientHeight, line_width, line_height);
+                    for (var i = 0; i < 15; i=i+2) {
+                        ctx.fillRect((canvas.clientWidth - line_width) / 2, (centerLinePos + line_height * i) % canvas.clientHeight, line_width, line_height);    
+                    }  
                     centerLinePos++;
                     requestAnimationFrame(()=>{
                         drawCenterLine(line_width, ctx);
