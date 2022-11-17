@@ -140,6 +140,7 @@
 
                 document.addEventListener('keydown', (event)=> {
                     if (event.defaultPrevented) { return; }
+                    if (dead) return;
                     switch (event.key) {
                         case "ArrowLeft":
                             if (playerPositionX - car_width > 0) {
