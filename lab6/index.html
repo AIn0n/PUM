@@ -68,12 +68,30 @@
                     }
                 }
 
+                function print_game_over() {
+                    ctx.font = "30px Arial";
+                    ctx.fillStyle="black";
+                    ctx.strokeText("Game over, points: " + points,canvas.clientWidth /2, canvas.clientHeight / 2);
+                    requestAnimationFrame(()=>{
+                        print_game_over();
+                    })                    
+                }
+
+                function die() {
+                    print_game_over();
+                    console.log("you died");
+                    setTimeout(()=>{
+
+                    }, 3000);
+                }
+
                 function detectCollisions()
                 {
                     for (var i = 0; i < obstaclesX.length; ++i) {
                         if ((playerPositionX > obstaclesX[i] && playerPositionX + car_width < obstaclesY[i] + obstacle_width) &&
-                        (playerPositionY < obstaclesY[i] && playerPositionY + car_height > obstaclesY[i]))
-                            points = 0;
+                        (playerPositionY < obstaclesY[i] && playerPositionY + car_height > obstaclesY[i])) {
+                            die();
+                        }
                     }
                 }
 
@@ -115,7 +133,6 @@
                     requestAnimationFrame(()=>{
                         drawPlayer(sizeX, sizeY, ctx);
                     })
-                    detectCollisions();
                 }
 
                 document.addEventListener('keydown', (event)=> {
@@ -146,6 +163,7 @@
 
                 spawnObstacle(0);
                 requestAnimationFrame(() => {
+                    detectCollisions();
                     drawRoad(road_pos, road_width, ctx);
                     drawCenterLine(line_width, ctx);
                     drawCornerLines(line_width, ctx);
