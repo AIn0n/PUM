@@ -36,7 +36,7 @@
                     ctx.fillRect((canvas.clientWidth - line_width) / 2, centerLinePos % canvas.clientHeight, line_width, line_width * 5);
                     for (var i = 0; i < 15; i++) {
                         ctx.fillStyle = (ctx.fillStyle == "#ffffff") ? "red" : "white";
-                        ctx.fillRect((canvas.clientWidth - road_width) / 2, (centerLinePos + line_height * i) % canvas.clientHeight, line_width, line_height);
+                        ctx.fillRect(((canvas.clientWidth - road_width) / 2) - line_width, (centerLinePos + line_height * i) % canvas.clientHeight, line_width, line_height);
                         ctx.fillRect(((canvas.clientWidth - road_width) / 2) + road_width, (centerLinePos + line_height * i) % canvas.clientHeight, line_width, line_height);
                     }
                     centerLinePos++;
