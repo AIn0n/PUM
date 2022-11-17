@@ -71,14 +71,9 @@
                 function detectCollisions()
                 {
                     for (var i = 0; i < obstaclesX.length; ++i) {
-                        if (!(playerPositionX < (obstaclesX[i] + obstacle_width) &&
-                          (playerPositionX + car_width) > obstaclesY[i] &&
-                          (playerPositionY < obstaclesY[i] && 
-                          (playerPositionY + car_height) > obstaclesY[i]))) {
-                            console.log("foo")
+                        if ((playerPositionX > obstaclesX[i] && playerPositionX + car_width < obstaclesY[i] + obstacle_width) &&
+                        (playerPositionY < obstaclesY[i] && playerPositionY + car_height > obstaclesY[i]))
                             points = 0;
-                          }
-
                     }
                 }
 
@@ -120,6 +115,7 @@
                     requestAnimationFrame(()=>{
                         drawPlayer(sizeX, sizeY, ctx);
                     })
+                    detectCollisions();
                 }
 
                 document.addEventListener('keydown', (event)=> {
