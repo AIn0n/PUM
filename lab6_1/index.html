@@ -171,11 +171,31 @@
 
                 // true - left, false - right
                 function rotate_view(side, counter) {
-                    canvas.tranform = 'rotate(90deg);'
-                    if (counter == 30) return;
-                    requestAnimationFrame(()=>{
+                    ctx.translate(canvas.clientWidth / 2, canvas.clientHeight / 2);
+                    const dir = side ? 1 : -1;
+                    console.log(counter);
+                    ctx.rotate(counter * Math.PI / 180 * dir);
+                    ctx.translate(-canvas.clientWidth / 2, -canvas.clientHeight / 2);
+                    if (counter == 3) {
+                        setTimeout(()=>{
+                            rotate_view_other_side(!side, counter - 1);
+                        });
+                        return;
+                    }
+                    setTimeout(()=>{
                         rotate_view(side, counter + 1)
-                    })
+                    }, 10);
+                }
+                function rotate_view_other_side(side, counter) {
+                    ctx.translate(canvas.clientWidth / 2, canvas.clientHeight / 2);
+                    const dir = side ? 1 : -1;
+                    console.log(counter);
+                    ctx.rotate(counter * Math.PI / 180 * dir);
+                    ctx.translate(-canvas.clientWidth / 2, -canvas.clientHeight / 2);
+                    if (counter == 0) return;
+                    setTimeout(()=>{
+                        rotate_view(side, counter - 1)
+                    }, 10);
                 }
 
                 document.addEventListener('keydown', (event)=> {
@@ -184,7 +204,7 @@
                         case "ArrowLeft":
                             if (playerPositionX - car_width > 0 && !dead) {
                                 playerPositionX -= velocity;
-                                rotate_view(false, 30);
+                                rotate_view(false, 1);
                             }
                             break;
                         case "ArrowRight":
