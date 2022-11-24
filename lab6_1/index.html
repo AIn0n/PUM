@@ -169,12 +169,22 @@
                     })
                 }
 
+                // true - left, false - right
+                function rotate_view(side, counter) {
+                    canvas.tranform = 'rotate(90deg);'
+                    if (counter == 30) return;
+                    requestAnimationFrame(()=>{
+                        rotate_view(side, counter + 1)
+                    })
+                }
+
                 document.addEventListener('keydown', (event)=> {
                     if (event.defaultPrevented) { return; }
                     switch (event.key) {
                         case "ArrowLeft":
                             if (playerPositionX - car_width > 0 && !dead) {
                                 playerPositionX -= velocity;
+                                rotate_view(false, 30);
                             }
                             break;
                         case "ArrowRight":
