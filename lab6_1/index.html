@@ -22,12 +22,20 @@
                     return Math.random() * (max - min) + min;
                 }
 
+                function draw_background() {
+                    ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+                    ctx.fillStyle = "green";
+                    ctx.fillRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+                    requestAnimationFrame(()=>{
+                        draw_background();
+                    });
+                }
+
                 function drawRoad(road_pos, road_width, ctx)
                 {
                     ctx.fillStyle = "gray";
                     ctx.fillRect(road_pos, 0, road_width, canvas.clientWidth);
                     requestAnimationFrame(()=>{
-                        ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
                         drawRoad(road_pos, road_width, ctx);
                     });
                 }
@@ -200,7 +208,7 @@
 
                 spawnObstacle(0);
                 requestAnimationFrame(() => {
-                    
+                    draw_background();
                     drawRoad(road_pos, road_width, ctx);
                     drawCenterLine(line_width, ctx);
                     drawCornerLines(line_width, ctx);
