@@ -176,25 +176,25 @@
                     console.log(counter);
                     ctx.rotate(counter * Math.PI / 180 * dir);
                     ctx.translate(-canvas.clientWidth / 2, -canvas.clientHeight / 2);
+                    ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
                     if (counter == 3) {
-                        setTimeout(()=>{
-                            rotate_view_other_side(!side, counter - 1);
-                        });
+                        rotate_view_other_side(!side, counter);
                         return;
                     }
                     setTimeout(()=>{
                         rotate_view(side, counter + 1)
                     }, 10);
+                    return;
                 }
                 function rotate_view_other_side(side, counter) {
                     ctx.translate(canvas.clientWidth / 2, canvas.clientHeight / 2);
                     const dir = side ? 1 : -1;
-                    console.log(counter);
+
                     ctx.rotate(counter * Math.PI / 180 * dir);
                     ctx.translate(-canvas.clientWidth / 2, -canvas.clientHeight / 2);
                     if (counter == 0) return;
                     setTimeout(()=>{
-                        rotate_view(side, counter - 1)
+                        rotate_view_other_side(side, counter - 1)
                     }, 10);
                 }
 
@@ -204,12 +204,13 @@
                         case "ArrowLeft":
                             if (playerPositionX - car_width > 0 && !dead) {
                                 playerPositionX -= velocity;
-                                rotate_view(false, 1);
+                                rotate_view(false, 0);
                             }
                             break;
                         case "ArrowRight":
                             if (playerPositionX + car_width < canvas.clientWidth && !dead) {
                                 playerPositionX += velocity;
+                                rotate_view(true, 0);
                             }
                             break;
                         case "ArrowUp":
