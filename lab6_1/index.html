@@ -8,7 +8,7 @@
 
                 var playerPositionX = canvas.clientWidth / 2,
                     playerPositionY = canvas.clientHeight / 2;
-                const velocity = 5, car_width = 20, car_height = 40, road_width = 400;
+                const velocity = 10, car_width = 20, car_height = 40, road_width = 400;
                 const line_width = 10, road_pos = (canvas.clientWidth - road_width) / 2;
                 const line_height = 50;
                 const obstacle_width = 100;
@@ -84,6 +84,18 @@
                     dead = true;
                 }
 
+                function reset() {
+                    obstaclesX = [];
+                    obstaclesY = [];
+                    points = 0;
+                    road_speed = 2;
+                    dead = false;
+                    playerPositionX = canvas.clientWidth / 2;
+                    playerPositionY = canvas.clientHeight / 2;
+                    spawnObstacle(0);
+
+                }
+
                 function detectCollisions(num)
                 {
                     if ((playerPositionX > obstaclesX[num] && (playerPositionX + car_width) < (obstaclesX[num] + obstacle_width)) &&
@@ -105,9 +117,8 @@
                         ctx.fillStyle = "black";
                         ctx.fillRect(obstaclesX[i], obstaclesY[i], obstacle_width, 10);
                         obstaclesY[i] += road_speed;
-                        if (!dead)
+                        if (obstaclesY[i] > canvas.clientHeight && !dead) {
                             check_points(i);
-                        if (obstaclesY[i] > canvas.clientHeight) {
                             obstaclesY[i] = 0;
                             obstaclesX[i] = random_in_range(road_pos, road_pos + road_width - obstacle_width);
                             pointed[i] = false;
@@ -154,12 +165,12 @@
                     if (dead) return;
                     switch (event.key) {
                         case "ArrowLeft":
-                            if (playerPositionX - car_width > 0) {
+                            if (playerPositionX - car_width > 0 && !dead) {
                                 playerPositionX -= velocity;
                             }
                             break;
                         case "ArrowRight":
-                            if (playerPositionX + car_width < canvas.clientWidth) {
+                            if (playerPositionX + car_width < canvas.clientWidth && !dead) {
                                 playerPositionX += velocity;
                             }
                             break;
@@ -179,8 +190,10 @@
                         case "z":
                             if (road_speed > 1)
                                 road_speed -= 1;
-                            
-
+                            break;
+                        case 'r':
+                            console.log("hello");
+                            reset();
                     }
                     event.preventDefault();
                 }, true);
