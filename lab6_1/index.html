@@ -12,7 +12,7 @@
                 const line_width = 10, road_pos = (canvas.clientWidth - road_width) / 2;
                 const line_height = 50;
                 const obstacle_width = 100;
-                const road_speed = 2;
+                var road_speed = 2;
                 var points = 0;
                 var centerLinePos = 0;
                 var obstaclesX = [], obstaclesY = [], pointed = [];
@@ -172,6 +172,15 @@
                             if (playerPositionY + car_height < canvas.clientHeight) {
                                 playerPositionY += velocity;
                             }
+                            break;
+                        case "a":
+                            road_speed += 1;
+                            break;
+                        case "z":
+                            if (road_speed > 1)
+                                road_speed -= 1;
+                            
+
                     }
                     event.preventDefault();
                 }, true);
