@@ -130,6 +130,16 @@
                     })
                 }
 
+                function drawSpeedMeter()
+                {
+                    ctx.font = "30px Arial";
+                    ctx.fillStyle="black";
+                    ctx.strokeText("speed: " + road_speed * 10 + "km/h", 0, 30);
+                    requestAnimationFrame(()=>{
+                        drawSpeedMeter();
+                    })
+                }
+
                 function drawPlayer(sizeX, sizeY, ctx)
                 {
                     ctx.fillStyle = "red";
@@ -174,6 +184,7 @@
                     drawCornerLines(line_width, ctx);
                     drawObstacles();
                     drawPointsCounter();
+                    drawSpeedMeter();
                     drawPlayer(car_width, car_height, ctx);
                 });
             </script>
