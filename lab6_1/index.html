@@ -71,6 +71,7 @@
                 }
 
                 function print_game_over() {
+                    if(!dead) return;
                     ctx.font = "30px Arial";
                     ctx.fillStyle="black";
                     ctx.strokeText("Game over, points: " + points,canvas.clientWidth /2, canvas.clientHeight / 2);
@@ -162,7 +163,6 @@
 
                 document.addEventListener('keydown', (event)=> {
                     if (event.defaultPrevented) { return; }
-                    if (dead) return;
                     switch (event.key) {
                         case "ArrowLeft":
                             if (playerPositionX - car_width > 0 && !dead) {
@@ -175,24 +175,24 @@
                             }
                             break;
                         case "ArrowUp":
-                            if (playerPositionY - car_height > 0) {
+                            if (playerPositionY - car_height > 0 && !dead) {
                                 playerPositionY -= velocity;
                             }
                             break;
                         case "ArrowDown":
-                            if (playerPositionY + car_height < canvas.clientHeight) {
+                            if (playerPositionY + car_height < canvas.clientHeight && !dead) {
                                 playerPositionY += velocity;
                             }
                             break;
                         case "a":
-                            road_speed += 1;
+                            if (!dead)
+                                road_speed += 1;
                             break;
                         case "z":
-                            if (road_speed > 1)
+                            if (road_speed > 1 && !dead)
                                 road_speed -= 1;
                             break;
                         case 'r':
-                            console.log("hello");
                             reset();
                     }
                     event.preventDefault();
