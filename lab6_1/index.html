@@ -12,6 +12,7 @@
                 const line_width = 10, road_pos = (canvas.clientWidth - road_width) / 2;
                 const line_height = 50;
                 const obstacle_width = 100;
+                const road_speed = 2;
                 var points = 0;
                 var centerLinePos = 0;
                 var obstaclesX = [], obstaclesY = [], pointed = [];
@@ -40,7 +41,7 @@
                         ctx.fillRect(((canvas.clientWidth - road_width) / 2) - line_width, (centerLinePos + line_height * i) % canvas.clientHeight, line_width, line_height);
                         ctx.fillRect(((canvas.clientWidth - road_width) / 2) + road_width, (centerLinePos + line_height * i) % canvas.clientHeight, line_width, line_height);
                     }
-                    centerLinePos++;
+                    centerLinePos += road_speed;
                     requestAnimationFrame(()=>{
                         drawCornerLines(line_width, ctx);
                     });
@@ -52,7 +53,7 @@
                     for (var i = 0; i < 15; i=i+2) {
                         ctx.fillRect((canvas.clientWidth - line_width) / 2, (centerLinePos + line_height * i) % canvas.clientHeight, line_width, line_height);
                     }
-                    centerLinePos++;
+
                     requestAnimationFrame(()=>{
                         drawCenterLine(line_width, ctx);
                     });
@@ -103,7 +104,7 @@
                     for (var i = 0; i < obstaclesX.length; ++i) {
                         ctx.fillStyle = "black";
                         ctx.fillRect(obstaclesX[i], obstaclesY[i], obstacle_width, 10);
-                        obstaclesY[i] += 1;
+                        obstaclesY[i] += road_speed;
                         if (!dead)
                             check_points(i);
                         if (obstaclesY[i] > canvas.clientHeight) {
