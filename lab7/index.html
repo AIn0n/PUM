@@ -7,20 +7,22 @@ const canvas = document.getElementById("c");
 var ctx = canvas.getContext("2d");
 
 function draw_road(road_pos_x) {
-    ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+    
     const segment_height = 40;
     const segment_width = 100;
-    const road_velocity = 1;
+    const road_velocity = 2;
     const road_pos_y = canvas.clientHeight - segment_height;
     const num_of_segments = (canvas.clientWidth / segment_width) + 1;
 
+    ctx.fillStyle="white";
     for (var i = 0; i < num_of_segments; ++i) {
         ctx.fillStyle = (ctx.fillStyle == "#ffffff") ? "red" : "white";
         ctx.fillRect(road_pos_x + (segment_width * i), road_pos_y, segment_width, segment_height);
     }
-    if (road_pos_x < segment_width) 
-        road_pos_x = 0;
+    if (road_pos_x <= -segment_width)
+        road_pos_x += 200;
     requestAnimationFrame(()=>{
+        ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
         draw_road(road_pos_x - road_velocity);
     });
 }
