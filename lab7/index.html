@@ -6,9 +6,17 @@
 const canvas = document.getElementById("c");
 var ctx = canvas.getContext("2d");
 
+// road contants
+const segment_height = 40;
+
+// player constants
+const player_height = 40;
+
+// player globals
+var player_pos_x = canvas.clientWidth / 8;
+var player_pos_y = canvas.clientHeight - segment_height - player_height;
+
 function draw_road(road_pos_x) {
-    
-    const segment_height = 40;
     const segment_width = 100;
     const road_velocity = 2;
     const road_pos_y = canvas.clientHeight - segment_height;
@@ -34,11 +42,19 @@ function draw_background() {
     })
 }
 
-function 
+function draw_player() {
+    const player_width = 150;
+    ctx.fillStyle = "green";
+    ctx.fillRect(player_pos_x, player_pos_y, player_width, player_height);
+    requestAnimationFrame(()=>{
+        draw_player();
+    })
+}
 
 requestAnimationFrame(()=>{
     draw_background();
     draw_road(0);
+    draw_player();
 });
 </script>
 </canvas>
