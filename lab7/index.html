@@ -18,11 +18,11 @@ var player_pos_x = canvas.clientWidth / 8;
 var player_pos_y = road_pos_y - player_height;
 
 // jump contants
-var jump_max_height = 100;
+var jump_max_height = 300;
 
 // jump globals
 var in_air = false;
-var jump_vel = -3;
+var jump_vel = 0;
 
 function draw_road(road_pos_x) {
     const segment_width = 100;
@@ -56,9 +56,10 @@ function draw_player() {
 
     if (in_air) {
         player_pos_y += jump_vel;
-        if (player_pos_y <= jump_max_height)
+        if (player_pos_y <= jump_max_height) {
             jump_vel = -jump_vel;
-        if (player_pos_y + player_height <= road_pos_y) {
+        }
+        if (player_pos_y + player_height >= road_pos_y) {
             jump_vel = 0
             in_air = false;
         }
