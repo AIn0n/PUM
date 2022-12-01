@@ -16,6 +16,9 @@ const player_height = 40;
 var player_pos_x = canvas.clientWidth / 8;
 var player_pos_y = canvas.clientHeight - segment_height - player_height;
 
+// jump globals
+var in_air = false;
+
 function draw_road(road_pos_x) {
     const segment_width = 100;
     const road_velocity = 2;
@@ -50,6 +53,16 @@ function draw_player() {
         draw_player();
     })
 }
+
+document.addEventListener('keydown', (event)=> {
+    if (event.defaultPrevented) { return; }
+    switch (event.key) {
+        case " ":
+            in_air = true;
+            
+    }
+    event.preventDefault();
+}, true);
 
 requestAnimationFrame(()=>{
     draw_background();
