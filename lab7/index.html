@@ -26,7 +26,7 @@ var jump_vel = 0;
 
 function draw_road(road_pos_x) {
     const segment_width = 100;
-    const road_velocity = 2;
+    const road_velocity = 3;
     const num_of_segments = (canvas.clientWidth / segment_width) + 1;
 
     ctx.fillStyle="white";
@@ -69,6 +69,10 @@ function draw_player() {
     requestAnimationFrame(()=>{
         draw_player();
     })
+}
+
+function draw_obstacle() {
+    
 }
 
 document.addEventListener('keydown', (event)=> {
