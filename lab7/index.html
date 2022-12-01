@@ -8,11 +8,10 @@
 
                 var playerPositionX = canvas.clientWidth / 2,
                     playerPositionY = canvas.clientHeight / 2;
-                const velocity = 10, car_width = 20, car_height = 40, road_width = 400;
+                const velocity = 5, car_width = 20, car_height = 40, road_width = 400;
                 const line_width = 10, road_pos = (canvas.clientWidth - road_width) / 2;
                 const line_height = 50;
                 const obstacle_width = 100;
-                var road_speed = 2;
                 var points = 0;
                 var centerLinePos = 0;
                 var obstaclesX = [], obstaclesY = [], pointed = [];
@@ -22,20 +21,12 @@
                     return Math.random() * (max - min) + min;
                 }
 
-                function draw_background() {
-                    ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
-                    ctx.fillStyle = "green";
-                    ctx.fillRect(0, 0, canvas.clientWidth, canvas.clientHeight);
-                    requestAnimationFrame(()=>{
-                        draw_background();
-                    });
-                }
-
                 function drawRoad(road_pos, road_width, ctx)
                 {
                     ctx.fillStyle = "gray";
                     ctx.fillRect(road_pos, 0, road_width, canvas.clientWidth);
                     requestAnimationFrame(()=>{
+                        ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
                         drawRoad(road_pos, road_width, ctx);
                     });
                 }
@@ -49,7 +40,7 @@
                         ctx.fillRect(((canvas.clientWidth - road_width) / 2) - line_width, (centerLinePos + line_height * i) % canvas.clientHeight, line_width, line_height);
                         ctx.fillRect(((canvas.clientWidth - road_width) / 2) + road_width, (centerLinePos + line_height * i) % canvas.clientHeight, line_width, line_height);
                     }
-                    centerLinePos += road_speed;
+                    centerLinePos++;
                     requestAnimationFrame(()=>{
                         drawCornerLines(line_width, ctx);
                     });
@@ -61,7 +52,7 @@
                     for (var i = 0; i < 15; i=i+2) {
                         ctx.fillRect((canvas.clientWidth - line_width) / 2, (centerLinePos + line_height * i) % canvas.clientHeight, line_width, line_height);
                     }
-
+                    centerLinePos++;
                     requestAnimationFrame(()=>{
                         drawCenterLine(line_width, ctx);
                     });
@@ -79,7 +70,6 @@
                 }
 
                 function print_game_over() {
-                    if(!dead) return;
                     ctx.font = "30px Arial";
                     ctx.fillStyle="black";
                     ctx.strokeText("Game over, points: " + points,canvas.clientWidth /2, canvas.clientHeight / 2);
@@ -91,18 +81,6 @@
                 function die() {
                     print_game_over();
                     dead = true;
-                }
-
-                function reset() {
-                    obstaclesX = [];
-                    obstaclesY = [];
-                    points = 0;
-                    road_speed = 2;
-                    dead = false;
-                    playerPositionX = canvas.clientWidth / 2;
-                    playerPositionY = canvas.clientHeight / 2;
-                    spawnObstacle(0);
-
                 }
 
                 function detectCollisions(num)
@@ -125,9 +103,10 @@
                     for (var i = 0; i < obstaclesX.length; ++i) {
                         ctx.fillStyle = "black";
                         ctx.fillRect(obstaclesX[i], obstaclesY[i], obstacle_width, 10);
-                        obstaclesY[i] += road_speed;
-                        if (obstaclesY[i] > canvas.clientHeight && !dead) {
+                        obstaclesY[i] += 1;
+                        if (!dead)
                             check_points(i);
+                        if (obstaclesY[i] > canvas.clientHeight) {
                             obstaclesY[i] = 0;
                             obstaclesX[i] = random_in_range(road_pos, road_pos + road_width - obstacle_width);
                             pointed[i] = false;
@@ -150,16 +129,6 @@
                     })
                 }
 
-                function drawSpeedMeter()
-                {
-                    ctx.font = "30px Arial";
-                    ctx.fillStyle="black";
-                    ctx.strokeText("speed: " + road_speed * 10 + "km/h", 0, 30);
-                    requestAnimationFrame(()=>{
-                        drawSpeedMeter();
-                    })
-                }
-
                 function drawPlayer(sizeX, sizeY, ctx)
                 {
                     ctx.fillStyle = "red";
@@ -169,83 +138,41 @@
                     })
                 }
 
-                // true - left, false - right
-                function rotate_view(side, counter) {
-                    ctx.translate(canvas.clientWidth / 2, canvas.clientHeight / 2);
-                    const dir = side ? 1 : -1;
-                    console.log(counter);
-                    ctx.rotate(counter * Math.PI / 180 * dir);
-                    ctx.translate(-canvas.clientWidth / 2, -canvas.clientHeight / 2);
-                    ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
-                    if (counter == 3) {
-                        rotate_view_other_side(!side, counter);
-                        return;
-                    }
-                    setTimeout(()=>{
-                        rotate_view(side, counter + 1)
-                    }, 10);
-                    return;
-                }
-                function rotate_view_other_side(side, counter) {
-                    ctx.translate(canvas.clientWidth / 2, canvas.clientHeight / 2);
-                    const dir = side ? 1 : -1;
-
-                    ctx.rotate(counter * Math.PI / 180 * dir);
-                    ctx.translate(-canvas.clientWidth / 2, -canvas.clientHeight / 2);
-                    if (counter == 0) return;
-                    setTimeout(()=>{
-                        rotate_view_other_side(side, counter - 1)
-                    }, 10);
-                }
-
                 document.addEventListener('keydown', (event)=> {
                     if (event.defaultPrevented) { return; }
+                    if (dead) return;
                     switch (event.key) {
                         case "ArrowLeft":
-                            if (playerPositionX - car_width > 0 && !dead) {
+                            if (playerPositionX - car_width > 0) {
                                 playerPositionX -= velocity;
-                                rotate_view(false, 0);
                             }
                             break;
                         case "ArrowRight":
-                            if (playerPositionX + car_width < canvas.clientWidth && !dead) {
+                            if (playerPositionX + car_width < canvas.clientWidth) {
                                 playerPositionX += velocity;
-                                rotate_view(true, 0);
                             }
                             break;
                         case "ArrowUp":
-                            if (playerPositionY - car_height > 0 && !dead) {
+                            if (playerPositionY - car_height > 0) {
                                 playerPositionY -= velocity;
                             }
                             break;
                         case "ArrowDown":
-                            if (playerPositionY + car_height < canvas.clientHeight && !dead) {
+                            if (playerPositionY + car_height < canvas.clientHeight) {
                                 playerPositionY += velocity;
                             }
-                            break;
-                        case "a":
-                            if (!dead)
-                                road_speed += 1;
-                            break;
-                        case "z":
-                            if (road_speed > 1 && !dead)
-                                road_speed -= 1;
-                            break;
-                        case 'r':
-                            reset();
                     }
                     event.preventDefault();
                 }, true);
 
                 spawnObstacle(0);
                 requestAnimationFrame(() => {
-                    draw_background();
+                    
                     drawRoad(road_pos, road_width, ctx);
                     drawCenterLine(line_width, ctx);
                     drawCornerLines(line_width, ctx);
                     drawObstacles();
                     drawPointsCounter();
-                    drawSpeedMeter();
                     drawPlayer(car_width, car_height, ctx);
                 });
             </script>
