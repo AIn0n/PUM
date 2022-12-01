@@ -6,13 +6,23 @@
 const canvas = document.getElementById("c");
 const ctx = canvas.getContext("2d");
 
-function draw_road() {
-    const road_height = 40;
-    const road_pos = canvas.clientHeight - road_height;
+function draw_road(road_pos_x) {
+    ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+    const segment_height = 40;
+    const segment_width = 100;
+    const road_pos_y = canvas.clientHeight - segment_height;
+    const num_of_segments = (canvas.clientWidth / segment_width) + 1;
+
+    for (var i = 0; i < num_of_segments; ++i) {
+        ctx.fillstyle = (ctx.fillstyle == "#ffffff") ? "red" : "white";
+        ctx.fillRect(road_pos_x + (segment_width * i), road_pos_y, segment_width, segment_height);
+    }
+    if (road_pos_x < segment_width) road_pos_x = 0
+    requestAnimationFrame(()=>{draw_road(road_pos_x - 1)})
 }
 
 requestAnimationFrame(()=>{
-
+    draw_road(0);
 })
 </script>
 </canvas>
