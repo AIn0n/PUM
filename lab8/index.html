@@ -20,6 +20,9 @@ const stone_r = 20;
 // stones related variables
 var stones_cords = [{x: 1, y: 0}];
 
+// player related vars
+var player = 'white';
+
 canvas.addEventListener('click', (event)=>{
     stones_cords.push({
         x: Math.floor((event.offsetX - segments_off_w)/40) % num_of_segments,
