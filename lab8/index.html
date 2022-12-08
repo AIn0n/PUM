@@ -23,11 +23,14 @@ var stones_cords = [{x: 1, y: 0, c: 'white'}];
 // player related vars
 var player = 'white';
 
+function find_nearest_point(point, offset) {
+    return Math.floor((point - offset) / segment_size) % num_of_segments;
+}
+
 canvas.addEventListener('click', (event)=>{
-    stones_cords.push({
-        x: Math.floor((event.offsetX - segments_off_w)/40) % num_of_segments,
-        y: Math.floor((event.offsetY - segments_off_h)/40) % num_of_segments,
-        c: player});
+    const x = find_nearest_point(event.offsetX, segments_off_w);
+    const y = find_nearest_point(event.offsetY, segments_off_h);
+    stones_cords.push({x: x, y: y, c: player});
     player = (player === 'white') ? 'black' : 'white';
 });
 
