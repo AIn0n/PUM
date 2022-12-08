@@ -21,7 +21,9 @@ const stone_r = 20;
 var stones_cords = [{x: 1, y: 0}];
 
 canvas.addEventListener('click', (event)=>{
-    
+    stones_cords.push({
+        x: Math.floor((event.offsetX - segments_off_w)/40) % num_of_segments,
+        y: Math.floor((event.offsetY - segments_off_h)/40) % num_of_segments});
 });
 
 function draw_stones()
