@@ -14,6 +14,31 @@ const line_length = ((num_of_segments - 1) * segment_size);
 const segments_off_w = (canvas.clientWidth - line_length)/2;
 const segments_off_h = (canvas.clientHeight - line_length)/2;
 
+// stones related constants
+const stone_r = 20;
+
+// stones related variables
+var stones_cords = [{x: 1, y: 0}];
+
+
+
+function draw_stones()
+{
+    for (const stone of stones_cords) {
+        ctx.beginPath();
+        //console.log(stone.x)
+        ctx.arc(
+            stone['x'] * segment_size + segments_off_w,
+            stone['y'] * segment_size + segments_off_h,
+            stone_r, 0, 2 * Math.PI, false);
+        ctx.fillStyle = 'white';
+        ctx.closePath();
+        ctx.fill();
+    }
+    requestAnimationFrame(()=> {
+        draw_stones();
+    })
+}
 
 function draw_background()
 {
@@ -41,6 +66,7 @@ function draw_background()
 
 requestAnimationFrame(() => { 
     draw_background();
+    draw_stones();
 });
 </script>
 </canvas>
