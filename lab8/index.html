@@ -65,6 +65,24 @@ function draw_stones()
     })
 }
 
+function is_neighbour(s1, s2)
+{
+    return ((s1.x + 1 == s2.x || s1.x - 1 == s2.x) &&
+            (s1.y + 1 == s2.y || s1.y - 1 == s2.y));
+}
+
+function is_stone_in_circle(s)
+{
+    let checking = [s];
+    for (stone in stones_cords)
+    {
+        if (is_neighbour(s, stone)) {
+            if (stone in checking)
+                return checking;
+        }
+    }
+}
+
 function draw_background()
 {
     ctx.fillStyle = "#eba946";
