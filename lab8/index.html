@@ -44,8 +44,8 @@ canvas.addEventListener('click', (event)=>{
     const y = find_nearest_point(event.offsetY, segments_off_h);
     if (check_if_field_exists(x, y) && check_if_field_is_empty(x, y)) {
         stones_cords.push({x: x, y: y, c: player});
+        collect_neighbours({x: x, y: y, c: player}, []);
         player = (player === 'white') ? 'black' : 'white';
-        is_stone_in_circle({x: x, y: y, c: player})
     }
 });
 
@@ -72,6 +72,18 @@ function is_neighbour(s1, s2)
             (s1.y + 1 == s2.y || s1.y - 1 == s2.y) && (s1.c === s2.c));
 }
 
+function collect_neighbours(s, collector)
+{
+    for (const stone of stones_cords) {
+        if (is_neighbour(s, stone) && !collector.includes(stone)) {
+            collector.push(stone);
+            collect_neighbours(stone, collector);
+        }
+        console.log(collector[0] == s && collector.length > 3);
+        return (collector[0] == s && collector.length > 3);
+    }
+}
+
 function is_stone_in_circle(s)
 {
     let checking = [s];
@@ -81,7 +93,7 @@ function is_stone_in_circle(s)
             if (is_neighbour(check, stone)) {
                 console.log("hello");
                 if (false) {
-                    console.log(cheking);
+                    console.log(checking);
                     return checking
                 }
             }
