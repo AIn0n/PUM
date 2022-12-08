@@ -27,18 +27,27 @@ function find_nearest_point(point, offset) {
     return Math.floor((point - offset) / segment_size) % num_of_segments;
 }
 
+function check_if_field_is_empty(x, y) {
+    for (const stone of stones_cords) {
+        if (stone.x == x && stone.y == y)
+            return false;
+    }
+    return true;
+}
+
 canvas.addEventListener('click', (event)=>{
     const x = find_nearest_point(event.offsetX, segments_off_w);
     const y = find_nearest_point(event.offsetY, segments_off_h);
-    stones_cords.push({x: x, y: y, c: player});
-    player = (player === 'white') ? 'black' : 'white';
+    if (check_if_field_is_empty(x, y)) {
+        stones_cords.push({x: x, y: y, c: player});
+        player = (player === 'white') ? 'black' : 'white';
+    }
 });
 
 function draw_stones()
 {
     for (const stone of stones_cords) {
         ctx.beginPath();
-        //console.log(stone.x)
         ctx.arc(
             stone['x'] * segment_size + segments_off_w,
             stone['y'] * segment_size + segments_off_h,
