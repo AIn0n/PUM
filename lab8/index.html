@@ -18,7 +18,7 @@ const segments_off_h = (canvas.clientHeight - line_length)/2;
 const stone_r = 20;
 
 // stones related variables
-var stones_cords = [{x: 1, y: 0}];
+var stones_cords = [{x: 1, y: 0, c: 'white'}];
 
 // player related vars
 var player = 'white';
@@ -26,7 +26,9 @@ var player = 'white';
 canvas.addEventListener('click', (event)=>{
     stones_cords.push({
         x: Math.floor((event.offsetX - segments_off_w)/40) % num_of_segments,
-        y: Math.floor((event.offsetY - segments_off_h)/40) % num_of_segments});
+        y: Math.floor((event.offsetY - segments_off_h)/40) % num_of_segments,
+        c: player});
+    player = (player === 'white') ? 'black' : 'white';
 });
 
 function draw_stones()
@@ -38,7 +40,7 @@ function draw_stones()
             stone['x'] * segment_size + segments_off_w,
             stone['y'] * segment_size + segments_off_h,
             stone_r, 0, 2 * Math.PI, false);
-        ctx.fillStyle = 'white';
+        ctx.fillStyle = stone['c'];
         ctx.closePath();
         ctx.fill();
     }
@@ -51,7 +53,7 @@ function draw_background()
 {
     ctx.fillStyle = "#eba946";
     ctx.fillRect(0, 0, canvas.clientWidth, canvas.clientHeight);
-    ctx.fillStyle = 'black';
+    ctx.fillStyle = player;
     for (let i = 0; i < num_of_segments; ++i) {
         ctx.beginPath();
         ctx.moveTo(segments_off_w  + (i * segment_size), segments_off_h);
