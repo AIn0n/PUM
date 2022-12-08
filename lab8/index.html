@@ -6,6 +6,21 @@
 const canvas = document.getElementById("c");
 var ctx = canvas.getContext("2d");
 
+// constants correlated to field size
+const segment_size = 40;
+
+function draw_background()
+{
+    ctx.fillStyle = "#eba946";
+    ctx.fillRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+    requestAnimationFrame(()=> {
+        draw_background();
+    });
+}
+
+requestAnimationFrame(() => { 
+    draw_background();
+});
 </script>
 </canvas>
 </body>
