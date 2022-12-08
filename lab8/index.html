@@ -35,10 +35,14 @@ function check_if_field_is_empty(x, y) {
     return true;
 }
 
+function check_if_field_exists(x, y) {
+     return (x <= num_of_segments && x >= 0 && y <= num_of_segments && y >= 0);
+}
+
 canvas.addEventListener('click', (event)=>{
     const x = find_nearest_point(event.offsetX, segments_off_w);
     const y = find_nearest_point(event.offsetY, segments_off_h);
-    if (check_if_field_is_empty(x, y)) {
+    if (check_if_field_exists(x, y) && check_if_field_is_empty(x, y)) {
         stones_cords.push({x: x, y: y, c: player});
         player = (player === 'white') ? 'black' : 'white';
     }
