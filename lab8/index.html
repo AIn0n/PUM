@@ -9,8 +9,8 @@ var ctx = canvas.getContext("2d");
 // constants correlated to field size
 const segment_size = 40;
 const num_of_segments = 9
-const segments_offsets_w = (canvas.clientWidth - (num_of_segments - 1) * segment_size)/2;
-const segments_offsets_h = (canvas.clientWidth - (num_of_segments - 1) * segment_size)/2;
+const segments_off_w = (canvas.clientWidth - (num_of_segments - 1) * segment_size)/2;
+const segments_off_h = (canvas.clientHeight - (num_of_segments - 1) * segment_size)/2;
 
 // constants correlated to drawing lines at playground
 const line_length = (num_of_segments * segment_size);
@@ -22,15 +22,15 @@ function draw_background()
     ctx.fillStyle = 'black';
     for (let i = 0; i < num_of_segments + 1; ++i) {
         ctx.beginPath();
-        ctx.moveTo(segments_offsets  + (i * segment_size), segments_offsets);
-        ctx.lineTo(segments_offsets  + (i * segment_size), segments_offsets + line_length);
+        ctx.moveTo(segments_off_w  + (i * segment_size), segments_off_h);
+        ctx.lineTo(segments_off_w  + (i * segment_size), segments_off_h + line_length);
         ctx.closePath();
         ctx.stroke();
     }
     for (let i = 0; i < num_of_segments + 1; ++i) {
         ctx.beginPath();
-        ctx.moveTo(segments_offsets, segments_offsets   + (i * segment_size));
-        ctx.lineTo(segments_offsets + line_length, segments_offsets + (i * segment_size));
+        ctx.moveTo(segments_off_w, segments_off_h   + (i * segment_size));
+        ctx.lineTo(segments_off_w + line_length, segments_off_h + (i * segment_size));
         ctx.closePath();
         ctx.stroke();
     }
