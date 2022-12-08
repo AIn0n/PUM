@@ -45,6 +45,7 @@ canvas.addEventListener('click', (event)=>{
     if (check_if_field_exists(x, y) && check_if_field_is_empty(x, y)) {
         stones_cords.push({x: x, y: y, c: player});
         player = (player === 'white') ? 'black' : 'white';
+        is_stone_in_circle({x: x, y: y, c: player})
     }
 });
 
@@ -68,17 +69,22 @@ function draw_stones()
 function is_neighbour(s1, s2)
 {
     return ((s1.x + 1 == s2.x || s1.x - 1 == s2.x) &&
-            (s1.y + 1 == s2.y || s1.y - 1 == s2.y));
+            (s1.y + 1 == s2.y || s1.y - 1 == s2.y) && (s1.c === s2.c));
 }
 
 function is_stone_in_circle(s)
 {
     let checking = [s];
-    for (stone in stones_cords)
+    for (const stone of stones_cords)
     {
-        if (is_neighbour(s, stone)) {
-            if (stone in checking)
-                return checking;
+        for (const check of checking) {
+            if (is_neighbour(check, stone)) {
+                console.log("hello");
+                if (false) {
+                    console.log(cheking);
+                    return checking
+                }
+            }
         }
     }
 }
