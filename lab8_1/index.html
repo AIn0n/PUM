@@ -72,16 +72,17 @@ function is_neighbour(s1, s2)
             (s1.y + 1 == s2.y || s1.y - 1 == s2.y) && (s1.c === s2.c));
 }
 
-function collect_neighbours(s, collector)
+function collect_neighbours(s)
 {
-    console.log(s);
+    collector = new Set([s]);
     for (const stone of stones_cords) {
-        if (is_neighbour(s, stone) && !collector.includes(stone)) {
-            collector.push(stone);
-            return collect_neighbours(stone, collector);
+        for (const collected of collector) {
+            if (is_neighbour(stone, collected) ) {
+                collector.add(stone);
+            }
         }
     }
-    return (collector.includes(s) && collector.length > 3);
+    return collector;
 }
 
 function is_stone_in_circle(s)
