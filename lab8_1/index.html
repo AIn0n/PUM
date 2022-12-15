@@ -85,23 +85,6 @@ function collect_neighbours(s)
     return collector;
 }
 
-function is_stone_in_circle(s)
-{
-    let checking = [s];
-    for (const stone of stones_cords)
-    {
-        for (const check of checking) {
-            if (is_neighbour(check, stone)) {
-                console.log("hello");
-                if (false) {
-                    console.log(checking);
-                    return checking
-                }
-            }
-        }
-    }
-}
-
 function draw_background()
 {
     ctx.fillStyle = "#eba946";
