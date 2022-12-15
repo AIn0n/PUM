@@ -39,12 +39,20 @@ function check_if_field_exists(x, y) {
      return (x <= num_of_segments && x >= 0 && y <= num_of_segments && y >= 0);
 }
 
+
+function clear_stones(neighbors)
+{
+    
+    const unique_x = new Set([...neighbors].map( elem => elem.x));
+    console.log(unique_x);
+}
+
 canvas.addEventListener('click', (event)=>{
     const x = find_nearest_point(event.offsetX, segments_off_w);
     const y = find_nearest_point(event.offsetY, segments_off_h);
     if (check_if_field_exists(x, y) && check_if_field_is_empty(x, y)) {
         stones_cords.push({x: x, y: y, c: player});
-        console.log(collect_neighbours({x: x, y: y, c: player}, []));
+        clear_stones(collect_neighbours({x: x, y: y, c: player}, []));
         player = (player === 'white') ? 'black' : 'white';
     }
 });
