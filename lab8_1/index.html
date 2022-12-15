@@ -76,12 +76,9 @@ function collect_neighbours(s, collector)
 {
     console.log(s);
     for (const stone of stones_cords) {
-        if (is_neighbour(s, stone)) {
-            if (!collector.includes(stone)) {
-                collector.push(stone);
-                collect_neighbours(stone, collector);
-            }
-            return true;
+        if (is_neighbour(s, stone) && !collector.includes(stone)) {
+            collector.push(stone);
+            return collect_neighbours(stone, collector);
         }
     }
     return (collector.includes(s) && collector.length > 3);
