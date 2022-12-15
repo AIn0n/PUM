@@ -79,8 +79,8 @@ function collect_neighbours(s, collector)
             collector.push(stone);
             collect_neighbours(stone, collector);
         }
-        console.log(collector[0] == s && collector.length > 3);
-        return (collector[0] == s && collector.length > 3);
+        console.log(stone);
+        return (collector.includes(s) && collector.length > 3);
     }
 }
 
