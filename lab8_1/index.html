@@ -82,11 +82,11 @@ function is_neighbour(s1, s2)
 function collect_neighbours(s, collector)
 {
     for (const stone of stones_cords) {
-        if (is_neighbour(stone, s) && !collector.includes(stone)) {
+        if (is_neighbour(stone, s) && !collector
+        .filter( e => e.x == stone.x && e.y == stone.y && e.c == stone.c).length) {
             return collect_neighbours(stone, collector);
         }
     }
-    console.log(collector);
     return collector;
 }
 
